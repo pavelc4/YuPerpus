@@ -1,154 +1,196 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
-    <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
-                </div>
-
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-
-                    <!-- Book Browsing (All Users) -->
-                    <x-nav-link :href="route('books.browse')" :active="request()->routeIs('books.browse')">
-                        {{ __('Daftar Buku') }}
-                    </x-nav-link>
-
-                    @if(in_array(auth()->user()->level, ['admin', 'petugas']))
-                        <!-- Book Management -->
-                        <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.*')">
-                            {{ __('Manajemen Buku') }}
-                        </x-nav-link>
-
-                        <!-- Category Management -->
-                        <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
-                            {{ __('Kategori') }}
-                        </x-nav-link>
-                    @endif
-
-                    <!-- Loan Management -->
-                    <x-nav-link :href="route('loans.index')" :active="request()->routeIs('loans.*')">
-                        {{ __('Peminjaman') }}
-                    </x-nav-link>
-
-                    <!-- User Management (Admin Only) -->
-                    @if(auth()->user()->level === 'admin')
-                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
-                            {{ __('Pengguna') }}
-                        </x-nav-link>
-                    @endif
-                </div>
-            </div>
-
-            <div class="hidden sm:flex sm:items-center sm:ml-6">
-                <!-- Settings Dropdown -->
-                <div class="ml-3 relative">
-                    <x-dropdown align="right" width="48">
-                        <x-slot name="trigger">
-                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                <div>{{ Auth::user()->nama }}</div>
-
-                                <div class="ml-1">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                            </button>
-                        </x-slot>
-
-                        <x-slot name="content">
-                            <x-dropdown-link :href="route('profile.edit')">
-                                {{ __('Profile') }}
-                            </x-dropdown-link>
-
-                            <!-- Authentication -->
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <x-dropdown-link :href="route('logout')"
-                                        onclick="event.preventDefault();
-                                                    this.closest('form').submit();">
-                                    {{ __('Log Out') }}
-                                </x-dropdown-link>
-                            </form>
-                        </x-slot>
-                    </x-dropdown>
-                </div>
-            </div>
-
-            <!-- Hamburger -->
-            <div class="-mr-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-
-            <!-- Book Browsing (All Users) -->
-            <x-responsive-nav-link :href="route('books.browse')" :active="request()->routeIs('books.browse')">
-                {{ __('Daftar Buku') }}
-            </x-responsive-nav-link>
-
-            @if(in_array(auth()->user()->level, ['admin', 'petugas']))
-                <x-responsive-nav-link :href="route('books.index')" :active="request()->routeIs('books.*')">
-                    {{ __('Manajemen Buku') }}
-                </x-responsive-nav-link>
-
-                <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
-                    {{ __('Kategori') }}
-                </x-responsive-nav-link>
-            @endif
-
-            <x-responsive-nav-link :href="route('loans.index')" :active="request()->routeIs('loans.*')">
-                {{ __('Peminjaman') }}
-            </x-responsive-nav-link>
-
-            @if(auth()->user()->level === 'admin')
-                <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
-                    {{ __('Pengguna') }}
-                </x-responsive-nav-link>
-            @endif
-        </div>
-
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->nama }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
-                <!-- Authentication -->
+<div class="navbar-bg"></div>
+<nav class="navbar navbar-expand-lg main-navbar">
+    <form class="form-inline mr-auto">
+        <ul class="navbar-nav mr-3">
+            <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
+        </ul>
+    </form>
+    <ul class="navbar-nav navbar-right">
+        <li class="dropdown">
+            <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                <img alt="image" src="{{ auth()->user()->foto_url }}" class="rounded-circle mr-1" style="width: 30px; height: 30px; object-fit: cover;">
+                <div class="d-sm-none d-lg-inline-block">Hi, {{ auth()->user()->nama }}</div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-title">{{ auth()->user()->level }}</div>
+                <a href="{{ route('profile.edit') }}" class="dropdown-item has-icon">
+                    <i class="far fa-user"></i> Profile
+                </a>
+                <div class="dropdown-divider"></div>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
+                    <a href="{{ route('logout') }}" class="dropdown-item has-icon text-danger"
+                        onclick="event.preventDefault(); this.closest('form').submit();">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
                 </form>
             </div>
-        </div>
-    </div>
+        </li>
+    </ul>
 </nav>
+
+<div class="main-sidebar sidebar-style-2">
+    <aside id="sidebar-wrapper">
+        <div class="sidebar-brand">
+            <a href="{{ route('dashboard') }}" class="text-white">
+                <i class="fas fa-book-reader mr-2"></i>
+                {{ config('app.name', 'Laravel') }}
+            </a>
+        </div>
+        <div class="sidebar-brand sidebar-brand-sm">
+            <a href="{{ route('dashboard') }}" class="text-white">
+                <i class="fas fa-book-reader"></i>
+            </a>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="menu-header">Dashboard</li>
+            <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('dashboard') }}">
+                    <i class="fas fa-fire"></i> <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li class="menu-header">Menu</li>
+            
+            <!-- Book Browsing (All Users) -->
+            <li class="{{ request()->routeIs('books.browse') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('books.browse') }}">
+                    <i class="fas fa-book"></i> <span>Daftar Buku</span>
+                </a>
+            </li>
+
+            @if(in_array(auth()->user()->level, ['admin', 'petugas']))
+                <!-- Book Management -->
+                <li class="{{ request()->routeIs('books.*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('books.index') }}">
+                        <i class="fas fa-book-open"></i> <span>Manajemen Buku</span>
+                    </a>
+                </li>
+
+                <!-- Category Management -->
+                <li class="{{ request()->routeIs('categories.*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('categories.index') }}">
+                        <i class="fas fa-tags"></i> <span>Kategori</span>
+                    </a>
+                </li>
+            @endif
+
+            <!-- Loan Management -->
+            <li class="{{ request()->routeIs('loans.*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('loans.index') }}">
+                    <i class="fas fa-hand-holding"></i> <span>Peminjaman</span>
+                </a>
+            </li>
+
+            <!-- User Management (Admin Only) -->
+            @if(auth()->user()->level === 'admin')
+                <li class="{{ request()->routeIs('users.*') ? 'active' : '' }} menu-users">
+                    <a class="nav-link" href="{{ route('users.index') }}">
+                        <i class="fas fa-users"></i> <span>Pengguna</span>
+                    </a>
+                </li>
+            @endif
+        </ul>
+    </aside>
+</div>
+
+<style>
+    .main-sidebar {
+        background: #f8fafc !important;
+        box-shadow: 2px 0 16px rgba(0,0,0,0.06);
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    .sidebar-brand {
+        background: transparent !important;
+        color: #4e73df !important;
+        padding: 1rem 1rem 0.5rem 1rem;
+        margin-bottom: 0.5rem;
+        border-radius: 0 0 1rem 1rem;
+        text-align: center;
+    }
+    .sidebar-brand a {
+        color: #4e73df !important;
+        font-weight: bold;
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+    }
+    .sidebar-menu {
+        margin-top: 1rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    .sidebar-menu li {
+        margin-bottom: 0.25rem;
+    }
+    .sidebar-menu li.menu-users {
+        margin-top: 1.2rem;
+    }
+    .sidebar-menu li a {
+        border-radius: 8px;
+        margin-bottom: 2px;
+        transition: background 0.2s;
+        color: #4e73df !important;
+        background: transparent !important;
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1.25rem;
+        font-size: 1rem;
+    }
+    .sidebar-menu li.active > a, .sidebar-menu li a:hover {
+        background: #e3e9f7 !important;
+        color: #224abe !important;
+    }
+    .sidebar-menu .menu-header {
+        color: #6c757d;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        padding: 0.75rem 1.25rem 0.5rem 1.25rem;
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+        border-bottom: 1px solid #e3e9f7;
+        letter-spacing: 1px;
+        background: #f4f6fb;
+        border-radius: 6px 6px 0 0;
+    }
+    .sidebar-menu .nav-link i {
+        width: 22px;
+        margin-right: 12px;
+        text-align: center;
+        font-size: 1.1em;
+    }
+    .navbar-bg {
+        background: #fff;
+        height: 70px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .main-navbar {
+        height: 70px;
+    }
+    .main-navbar .navbar-nav .nav-link {
+        color: #6c757d;
+    }
+    .main-navbar .navbar-nav .nav-link:hover {
+        color: #4e73df;
+    }
+    .dropdown-menu {
+        border: none;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+    }
+    .dropdown-item {
+        padding: 0.5rem 1.5rem;
+    }
+    .dropdown-item i {
+        width: 20px;
+        margin-right: 10px;
+        text-align: center;
+    }
+    .dropdown-title {
+        padding: 0.5rem 1.5rem;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        color: #6c757d;
+        font-weight: 600;
+    }
+</style>

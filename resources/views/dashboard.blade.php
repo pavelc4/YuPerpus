@@ -1,153 +1,172 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
+        <div class="d-flex align-items-center mb-4" style="min-height:48px;">
+            <h1 class="section-title mb-0" style="font-size:2rem; font-weight:700; color:#34395e;">Dashboard</h1>
+        </div>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <!-- Statistik -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6">
-                        <div class="text-gray-900 text-xl font-semibold mb-2">Total Buku</div>
-                        <div class="text-3xl font-bold text-blue-600">{{ \App\Models\Book::count() }}</div>
-                        <div class="text-sm text-gray-500 mt-2">
-                            <a href="{{ route('books.index') }}" class="text-blue-500 hover:text-blue-700">Lihat Detail →</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6">
-                        <div class="text-gray-900 text-xl font-semibold mb-2">Total Anggota</div>
-                        <div class="text-3xl font-bold text-green-600">{{ \App\Models\User::where('level', 'anggota')->count() }}</div>
-                        <div class="text-sm text-gray-500 mt-2">
-                            <a href="{{ route('users.index') }}" class="text-green-500 hover:text-green-700">Lihat Detail →</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6">
-                        <div class="text-gray-900 text-xl font-semibold mb-2">Peminjaman Aktif</div>
-                        <div class="text-3xl font-bold text-yellow-600">{{ \App\Models\Loan::whereIn('status', ['reserved', 'dipinjam'])->count() }}</div>
-                        <div class="text-sm text-gray-500 mt-2">
-                            <a href="{{ route('loans.index') }}" class="text-yellow-500 hover:text-yellow-700">Lihat Detail →</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6">
-                        <div class="text-gray-900 text-xl font-semibold mb-2">Total Kategori</div>
-                        <div class="text-3xl font-bold text-purple-600">{{ \App\Models\Category::count() }}</div>
-                        <div class="text-sm text-gray-500 mt-2">
-                            <a href="{{ route('categories.index') }}" class="text-purple-500 hover:text-purple-700">Lihat Detail →</a>
-                        </div>
-                    </div>
+    <div class="row mb-4 justify-content-center" style="gap: 0;">
+        <div class="col-lg-3 col-md-6 col-12 mb-3 d-flex">
+            <div class="card shadow-sm flex-fill d-flex flex-row align-items-center p-3" style="gap: 1rem; min-height: 100px;">
+                <div>
+                    <div class="text-muted small mb-1">Total Buku</div>
+                    <div class="h4 mb-0 font-weight-bold">{{ \App\Models\Book::count() }}</div>
                 </div>
             </div>
-
-            <!-- Menu Cepat -->
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
-                <div class="p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Menu Cepat</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <a href="{{ route('books.create') }}" class="flex items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100">
-                            <div class="p-3 rounded-full bg-blue-100 text-blue-600">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                </svg>
-                            </div>
-                            <div class="ml-4">
-                                <h4 class="text-lg font-semibold text-gray-900">Tambah Buku</h4>
-                                <p class="text-sm text-gray-500">Tambahkan buku baru ke perpustakaan</p>
-                            </div>
-                        </a>
-
-                        <a href="{{ route('categories.create') }}" class="flex items-center p-4 bg-green-50 rounded-lg hover:bg-green-100">
-                            <div class="p-3 rounded-full bg-green-100 text-green-600">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
-                                </svg>
-                            </div>
-                            <div class="ml-4">
-                                <h4 class="text-lg font-semibold text-gray-900">Tambah Kategori</h4>
-                                <p class="text-sm text-gray-500">Buat kategori baru untuk buku</p>
-                            </div>
-                        </a>
-
-                        <a href="{{ route('loans.index') }}" class="flex items-center p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100">
-                            <div class="p-3 rounded-full bg-yellow-100 text-yellow-600">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                </svg>
-                            </div>
-                            <div class="ml-4">
-                                <h4 class="text-lg font-semibold text-gray-900">Kelola Peminjaman</h4>
-                                <p class="text-sm text-gray-500">Lihat dan kelola peminjaman buku</p>
-                            </div>
-                        </a>
-                    </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-12 mb-3 d-flex">
+            <div class="card shadow-sm flex-fill d-flex flex-row align-items-center p-3" style="gap: 1rem; min-height: 100px;">
+                <div>
+                    <div class="text-muted small mb-1">Peminjaman Aktif</div>
+                    <div class="h4 mb-0 font-weight-bold">{{ \App\Models\Loan::whereIn('status', ['reserved', 'dipinjam'])->count() }}</div>
                 </div>
             </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-12 mb-3 d-flex">
+            <div class="card shadow-sm flex-fill d-flex flex-row align-items-center p-3" style="gap: 1rem; min-height: 100px;">
+                <div>
+                    <div class="text-muted small mb-1">Total Anggota</div>
+                    <div class="h4 mb-0 font-weight-bold">{{ \App\Models\User::where('level', 'anggota')->count() }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-12 mb-3 d-flex">
+            <div class="card shadow-sm flex-fill d-flex flex-row align-items-center p-3" style="gap: 1rem; min-height: 100px;">
+                <div>
+                    <div class="text-muted small mb-1">Total Kategori</div>
+                    <div class="h4 mb-0 font-weight-bold">{{ \App\Models\Category::count() }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            <!-- Peminjaman Terbaru -->
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Peminjaman Terbaru</h3>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Peminjaman Terbaru</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
                                 <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Buku</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Peminjam</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Pinjam</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th>Buku</th>
+                                    <th>Peminjam</th>
+                                    <th>Tanggal Pinjam</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
+                            <tbody>
                                 @forelse (\App\Models\Loan::with(['book', 'user'])->latest()->take(5)->get() as $loan)
                                     <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium text-gray-900">{{ $loan->book->judul }}</div>
-                                            <div class="text-sm text-gray-500">ISBN: {{ $loan->book->isbn }}</div>
+                                        <td>
+                                            <div class="font-weight-600">{{ $loan->book->judul }}</div>
+                                            <div class="text-muted text-small">ISBN: {{ $loan->book->isbn }}</div>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">{{ $loan->user->nama }}</div>
-                                            <div class="text-sm text-gray-500">NPM: {{ $loan->npm }}</div>
+                                        <td>
+                                            <div class="font-weight-600">{{ $loan->user->nama }}</div>
+                                            <div class="text-muted text-small">{{ $loan->user->email }}</div>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ $loan->tanggal_pinjam->format('d/m/Y') }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                                @if($loan->status === 'reserved') bg-yellow-100 text-yellow-800
-                                                @elseif($loan->status === 'dipinjam') bg-blue-100 text-blue-800
-                                                @elseif($loan->status === 'dikembalikan') bg-green-100 text-green-800
-                                                @else bg-red-100 text-red-800
-                                                @endif">
+                                        <td>{{ $loan->tanggal_pinjam->format('d/m/Y') }}</td>
+                                        <td>
+                                            <span class="badge badge-{{ $loan->status === 'reserved' ? 'warning' : 
+                                                ($loan->status === 'dipinjam' ? 'primary' : 
+                                                ($loan->status === 'dikembalikan' ? 'success' : 'danger')) }}">
                                                 {{ ucfirst($loan->status) }}
                                             </span>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
-                                            Tidak ada data peminjaman
-                                        </td>
+                                        <td colspan="4" class="text-center">Tidak ada data peminjaman</td>
                                     </tr>
                                 @endforelse
                             </tbody>
                         </table>
                     </div>
-                    <div class="mt-4">
-                        <a href="{{ route('loans.index') }}" class="text-blue-500 hover:text-blue-700">Lihat Semua Peminjaman →</a>
+                    <div class="text-center pt-1 pb-1">
+                        <a href="{{ route('loans.index') }}" class="btn btn-primary btn-lg btn-round">
+                            Lihat Semua Peminjaman
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <style>
+        .card-statistic-1 {
+            display: inline-block;
+            width: 100%;
+        }
+        .card-statistic-1 .card-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+            border-radius: 50%;
+            line-height: 80px;
+            text-align: center;
+            font-size: 30px;
+            color: #fff;
+        }
+        .card-statistic-1 .card-wrap {
+            padding: 20px;
+        }
+        .card-statistic-1 .card-header {
+            padding: 0;
+            margin-bottom: 10px;
+        }
+        .card-statistic-1 .card-header h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #6c757d;
+        }
+        .card-statistic-1 .card-body {
+            font-size: 24px;
+            font-weight: 700;
+            color: #34395e;
+        }
+        .table th {
+            font-weight: 600;
+            color: #6c757d;
+        }
+        .badge {
+            padding: 0.5em 0.75em;
+            font-size: 75%;
+            font-weight: 600;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.25rem;
+        }
+        .badge-warning {
+            background-color: #ffc107;
+            color: #fff;
+        }
+        .badge-primary {
+            background-color: #34395e;
+            color: #fff;
+        }
+        .badge-success {
+            background-color: #1cc88a;
+            color: #fff;
+        }
+        .badge-danger {
+            background-color: #e74a3b;
+            color: #fff;
+        }
+        .btn-round {
+            border-radius: 50px;
+        }
+        .btn-primary {
+            background-color: #34395e;
+            border-color: #34395e;
+        }
+        .btn-primary:hover {
+            background-color: #2a2f4a;
+            border-color: #2a2f4a;
+        }
+    </style>
 </x-app-layout>

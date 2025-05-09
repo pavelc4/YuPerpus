@@ -1,128 +1,99 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Manajemen Peminjaman') }}
-        </h2>
+        <h1 class="section-title">Daftar Peminjaman</h1>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            @if (session('success'))
-                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4 rounded shadow-md" role="alert" x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)">
-                    <div class="flex items-center">
-                        <div class="py-1">
-                            <svg class="h-6 w-6 text-green-500 mr-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <p class="font-bold">Berhasil!</p>
-                            <p class="text-sm">{{ session('success') }}</p>
-                        </div>
-                    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0"><i class="fas fa-hand-holding"></i> Daftar Peminjaman</h4>
+                    <a href="{{ route('loans.create') }}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Tambah Peminjaman
+                    </a>
                 </div>
-            @endif
-
-            @if (session('error'))
-                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded shadow-md" role="alert" x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)">
-                    <div class="flex items-center">
-                        <div class="py-1">
-                            <svg class="h-6 w-6 text-red-500 mr-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <p class="font-bold">Error!</p>
-                            <p class="text-sm">{{ session('error') }}</p>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    @if (auth()->user()->level === 'anggota')
-                        <div class="mb-4">
-                            <a href="{{ route('loans.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                Pinjam Buku
-                            </a>
-                        </div>
-                    @endif
-
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="table-1">
+                            <thead>
                                 <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Buku</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Peminjam</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Pinjam</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Kembali</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                                    <th>Buku</th>
+                                    <th>Peminjam</th>
+                                    <th>Tanggal Pinjam</th>
+                                    <th>Tanggal Kembali</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                @forelse ($loans as $loan)
+                            <tbody>
+                                @forelse($loans as $loan)
                                     <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium text-gray-900">{{ $loan->book->judul }}</div>
-                                            <div class="text-sm text-gray-500">ISBN: {{ $loan->book->isbn }}</div>
+                                        <td>
+                                            <div class="font-weight-600">{{ $loan->book->judul }}</div>
+                                            <div class="text-muted small">ISBN: {{ $loan->book->isbn }}</div>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">{{ $loan->user->nama }}</div>
+                                        <td>
+                                            <div class="font-weight-600">{{ $loan->user->nama }}</div>
+                                            <div class="text-muted small">{{ $loan->user->email }}</div>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ $loan->tanggal_pinjam->format('d/m/Y') }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ $loan->tanggal_kembali->format('d/m/Y') }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                                @if($loan->status === 'reserved') bg-yellow-100 text-yellow-800
-                                                @elseif($loan->status === 'dipinjam') bg-blue-100 text-blue-800
-                                                @elseif($loan->status === 'dikembalikan') bg-green-100 text-green-800
-                                                @else bg-red-100 text-red-800
-                                                @endif">
+                                        <td>{{ $loan->tanggal_pinjam->format('d/m/Y') }}</td>
+                                        <td>{{ $loan->tanggal_kembali->format('d/m/Y') }}</td>
+                                        <td>
+                                            <span class="badge badge-{{ $loan->status === 'reserved' ? 'warning' : ($loan->status === 'dipinjam' ? 'primary' : ($loan->status === 'dikembalikan' ? 'success' : 'danger')) }}" style="font-size: 0.95em; padding: 0.5em 1em;">
                                                 {{ ucfirst($loan->status) }}
                                             </span>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            @if ($loan->status === 'reserved')
-                                                @if (in_array(auth()->user()->level, ['admin', 'petugas']))
-                                                    <form action="{{ route('loans.approve', $loan) }}" method="POST" class="inline">
-                                                        @csrf
-                                                        <button type="submit" class="text-green-600 hover:text-green-900 mr-3">Setujui</button>
-                                                    </form>
-                                                @endif
-                                                <form action="{{ route('loans.cancel', $loan) }}" method="POST" class="inline">
+                                        <td>
+                                            @if($loan->status === 'reserved')
+                                                <form action="{{ route('loans.approve', $loan) }}" method="POST" class="d-inline">
                                                     @csrf
-                                                    <button type="submit" class="text-red-600 hover:text-red-900">Batalkan</button>
+                                                    <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Apakah Anda yakin ingin menyetujui peminjaman ini?')">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
                                                 </form>
-                                            @elseif ($loan->status === 'dipinjam' && in_array(auth()->user()->level, ['admin', 'petugas']))
-                                                <form action="{{ route('loans.return', $loan) }}" method="POST" class="inline">
+                                            @elseif($loan->status === 'dipinjam')
+                                                <form action="{{ route('loans.return', $loan) }}" method="POST" class="d-inline">
                                                     @csrf
-                                                    <button type="submit" class="text-blue-600 hover:text-blue-900">Kembalikan</button>
+                                                    <button type="submit" class="btn btn-info btn-sm" onclick="return confirm('Apakah Anda yakin ingin mengembalikan buku ini?')">
+                                                        <i class="fas fa-undo"></i>
+                                                    </button>
                                                 </form>
                                             @endif
+                                            <a href="{{ route('loans.edit', $loan) }}" class="btn btn-sm btn-primary mr-1" data-toggle="tooltip" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form action="{{ route('loans.destroy', $loan) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus peminjaman ini?')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
-                                            Tidak ada data peminjaman
-                                        </td>
+                                        <td colspan="6" class="text-center">Tidak ada data peminjaman</td>
                                     </tr>
                                 @endforelse
                             </tbody>
                         </table>
                     </div>
-
-                    <div class="mt-4">
-                        {{ $loans->links() }}
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+        $("#table-1").dataTable({
+            "columnDefs": [
+                { "sortable": false, "targets": [5] }
+            ]
+        });
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    @endpush
 </x-app-layout> 
