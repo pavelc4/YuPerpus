@@ -22,6 +22,13 @@
         <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
 
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <!-- Bootstrap Social CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css">
+
         <style>
             .main-content {
                 padding-top: 70px;
@@ -74,6 +81,67 @@
                 white-space: nowrap;
                 vertical-align: baseline;
                 border-radius: 0.25rem;
+            }
+            /* Social Login Buttons */
+            .btn-social {
+                position: relative;
+                padding-left: 44px;
+                text-align: left;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                color: #fff;
+            }
+            .btn-social > :first-child {
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                width: 32px;
+                line-height: 34px;
+                font-size: 1.6em;
+                text-align: center;
+                border-right: 1px solid rgba(0,0,0,0.2);
+            }
+            .btn-google {
+                color: #fff;
+                background-color: #dd4b39;
+                border-color: rgba(0,0,0,0.2);
+            }
+            .btn-google:hover {
+                color: #fff;
+                background-color: #c23321;
+            }
+            .btn-dark {
+                color: #fff;
+                background-color: #343a40;
+                border-color: rgba(0,0,0,0.2);
+            }
+            .btn-dark:hover {
+                color: #fff;
+                background-color: #23272b;
+            }
+            .login-brand {
+                margin: 0 auto 2rem;
+                text-align: center;
+            }
+            .login-brand h1 {
+                font-size: 2.5rem;
+                font-weight: 700;
+            }
+            .text-job {
+                font-size: 0.875rem;
+                color: #6c757d;
+                margin-bottom: 1rem;
+            }
+            .sm-gutters {
+                margin-right: -0.5rem;
+                margin-left: -0.5rem;
+            }
+            .sm-gutters > .col,
+            .sm-gutters > [class*="col-"] {
+                padding-right: 0.5rem;
+                padding-left: 0.5rem;
             }
         </style>
 

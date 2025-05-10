@@ -20,6 +20,8 @@ class User extends Authenticatable
         'level',
         'no_hp',
         'alamat',
+        'google_id',
+        'github_id',
     ];
 
     protected $hidden = [

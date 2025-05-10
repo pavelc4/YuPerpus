@@ -8,12 +8,13 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\BookBrowseController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\SocialLoginController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
@@ -43,5 +44,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+// Social Login Routes
+Route::get('auth/google', [SocialLoginController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [SocialLoginController::class, 'handleGoogleCallback'])->name('auth.google.callback');
+
+Route::get('auth/github', [SocialLoginController::class, 'redirectToGithub'])->name('auth.github');
+Route::get('auth/github/callback', [SocialLoginController::class, 'handleGithubCallback'])->name('auth.github.callback');
 
 require __DIR__.'/auth.php';
