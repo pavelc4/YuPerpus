@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>Daftar Kasir</title>
+    <title>Daftar </title>
     <link rel="icon" href="{{asset('assets/img/unsplash/logo.png')}}" type="image/x-icon">
 
     <!-- General CSS Files -->
