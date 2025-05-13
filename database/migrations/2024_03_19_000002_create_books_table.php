@@ -24,7 +24,19 @@ return new class extends Migration
             $table->text('deskripsi')->nullable();
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->string('lokasi_rak')->nullable();
+            
+            // Changed from 'Status' to 'ActiveStatus' to avoid conflict with 'status'
             $table->enum('status', ['tersedia', 'dipinjam', 'rusak'])->default('tersedia');
+            $table->tinyInteger('active_status')->default(1); // Renamed from Status
+            
+            // Standard fields
+            $table->string('CompanyCode', 20)->nullable();
+            $table->tinyInteger('IsDeleted')->default(0);
+            $table->string('CreatedBy', 32)->nullable();
+            $table->dateTime('CreatedDate')->nullable();
+            $table->string('LastUpdatedBy', 32)->nullable();
+            $table->dateTime('LastUpdatedDate')->nullable();
+            
             $table->timestamps();
             $table->softDeletes();
         });
@@ -37,4 +49,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('books');
     }
-}; 
+};

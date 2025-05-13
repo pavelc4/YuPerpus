@@ -20,6 +20,15 @@ return new class extends Migration
             $table->date('tanggal_dikembalikan')->nullable();
             $table->enum('status', ['reserved', 'dipinjam', 'dikembalikan', 'dibatalkan'])->default('reserved');
             $table->text('keterangan')->nullable();
+            
+            // Added the 7 standard fields
+            $table->string('CompanyCode', 20)->nullable();
+            $table->tinyInteger('IsDeleted')->default(0);
+            $table->string('CreatedBy', 32)->nullable();
+            $table->dateTime('CreatedDate')->nullable();
+            $table->string('LastUpdatedBy', 32)->nullable();
+            $table->dateTime('LastUpdatedDate')->nullable();
+            
             $table->timestamps();
             $table->softDeletes();
         });
@@ -32,4 +41,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('loans');
     }
-}; 
+};

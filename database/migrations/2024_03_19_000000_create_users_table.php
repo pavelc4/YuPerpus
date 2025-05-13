@@ -21,6 +21,15 @@ return new class extends Migration
             $table->string('no_hp')->nullable();
             $table->text('alamat')->nullable();
             $table->string('foto')->nullable();
+            
+            $table->string('CompanyCode', 20)->nullable();
+            $table->tinyInteger('Status')->default(1);
+            $table->tinyInteger('IsDeleted')->default(0);
+            $table->string('CreatedBy', 32)->nullable();
+            $table->dateTime('CreatedDate')->nullable();
+            $table->string('LastUpdatedBy', 32)->nullable();
+            $table->dateTime('LastUpdatedDate')->nullable();
+            
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
@@ -34,4 +43,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('users');
     }
-}; 
+};
